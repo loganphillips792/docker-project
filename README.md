@@ -1,13 +1,17 @@
 # What this is
 
 This is just a small project to practice docker,docker-compose, and K8s
-# Accessing Applications
+# Accessing Applications (Docker)
 
 - Heimdall: localhost:80
 - Grafana: localhost:3000
 - Portainer: https://localhost:9443
 - Home Assistant: http://localhost:8123
 - Plex: http://localhost:32400
+
+# Accessing Applications (K8s)
+
+- Heimdall: http://0.0.0.0:30777
 
 # Raspberry Pi Installation
 
@@ -137,8 +141,6 @@ nodes:
 ```kind create cluster --config=kind.config.yaml```
 
 kubectl apply -f kubernetes
-
-- Heimdall: http://0.0.0.0:30777
 
 
 
