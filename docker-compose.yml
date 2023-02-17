@@ -1,0 +1,103 @@
+# https://www.youtube.com/watch?v=h_GGd7HfKQ8 - timestamp 13:46
+# https://www.youtube.com/watch?v=9TJx7QTrTyo
+
+version: "3"
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    ports:
+      - 9443:9443
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+  # https://github.com/docker/awesome-compose/tree/master/prometheus-grafana
+  prometheus:
+    image: prom/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./prometheus_config_files:/etc/prometheus
+      - prom_data:/prometheus
+    networks:
+      - loki
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./grafana_config_files:/etc/grafana/provisioning/datasources
+    networks:
+      - loki
+  # Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus
+  loki:
+    image: grafana/loki:2.6.1
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml # https://github.com/grafana/loki/blob/main/cmd/loki/loki-docker-config.yaml
+    networks:
+      - loki
+  # Promtail is an agent which ships the contents of local logs to a private Grafana Loki instance
+  promtail:
+    image: grafana/promtail:2.6.1
+    volumes:
+      - /var/log:/var/log
+      # - /var/run/docker.sock:/var/run/docker.sock
+      - ./promtail_config_files:/etc/promtail
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - loki
+  homeassistant:
+    image: homeassistant/home-assistant:latest
+    volumes:
+      # - ./homeassistant_data:/config
+      - ~/serveradmin/docker_volumes/homeassistant_data:/config
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8123:8123
+    restart: unless-stopped
+    # network_mode: host
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    # network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    ports:
+      - 32400:32400
+    # volumes:
+    #   - /path/to/library:/config
+    #   - /path/to/tvseries:/tv
+    #   - /path/to/movies:/movies
+    restart: unless-stopped
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
+    volumes:
+      # - ./heimdall_data:/config
+      - ~/serveradmin/docker_volumes/heimdall_data:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+networks:
+  loki:
+
+volumes:
+  portainer_data:
+  prom_data:
