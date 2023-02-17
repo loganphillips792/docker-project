@@ -111,3 +111,51 @@ Vim /Users/logan/.docker/daemon.json
 https://grafana.com/docs/loki/latest/clients/promtail/scraping/
 
 docker-compose up
+
+# Kubernetes
+
+## Mac
+
+- Install Kind: go install sigs.k8s.io/kind@v0.17.0
+- Set up cluster
+- On Mac, we need to do some extra configuration due to how Docker works. That is why the kind.config.yaml file is needed. Read me here: https://kind.sigs.k8s.io/docs/user/known-issues/#docker-desktop-for-macos-and-windows
+
+vim kind.config.yaml
+
+```
+# Save to 'kind.config.yaml'
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30777
+    hostPort: 30777
+    listenAddress: "0.0.0.0"
+```
+
+```kind create cluster --config=kind.config.yaml```
+
+kubectl apply -f kubernetes
+
+- Heimdall: http://0.0.0.0:30777
+
+
+
+If you want to delete the cluster and start over: ```kind delete cluster```
+
+
+```
+kind create cluster --config=kind.config.yaml
+kubectl apply -f ../Downloads/portainer\(1\).yaml
+
+```
+
+
+
+
+
+Delete:  ~/go/bin/kind and ~/go/pkg/mod/sigs.k8s.io
+go install sigs.k8s.io/kind@v0.17.0
+kind delete cluster
+kind create cluster
