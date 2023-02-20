@@ -10,3 +10,6 @@ nodes:
   - containerPort: 30776
     hostPort: 30776
     listenAddress: "0.0.0.0"
+  - containerPort: 30775
+    hostPort: 30775
+    listenAddress: "0.0.0.0"

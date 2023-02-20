@@ -13,6 +13,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 
 - Heimdall: http://0.0.0.0:30777
 - Grafana: http://0.0.0.0:30776
+- Portainer: http://0.0.0.0:30775
 
 # Raspberry Pi Installation
 
