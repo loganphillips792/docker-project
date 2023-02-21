@@ -1,0 +1,195 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homeassistant
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: homeassistant-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  local:
+    path: /kub/data/homeassistant
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  nodeAffinity:
+     required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-type
+              operator: In
+              values:
+                - homeassistant
+
+  
+  
+---
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-assistant
+  template:
+    metadata:
+      labels:
+        app: home-assistant
+    spec:
+      containers:
+      - name: home-assistant
+        image: homeassistant/home-assistant:stable
+        ports:
+        - containerPort: 8123
+        volumeMounts:
+        - name: config
+          mountPath: /config
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: homeassistant
+---
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-assistant
+spec:
+  selector:
+    app: home-assistant
+  type: NodePort
+  ports:
+  - name: http
+    port: 8123
+    targetPort: 8123
+    nodePort: 30774
+---
+
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   annotations:
+#     kompose.cmd: ../kompose convert -f docker-compose.yml
+#     kompose.version: 1.28.0 (c4137012e)
+#   creationTimestamp: null
+#   labels:
+#     io.kompose.service: homeassistant
+#   name: homeassistant
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       io.kompose.service: homeassistant
+#   strategy:
+#     type: Recreate
+#   template:
+#     metadata:
+#       annotations:
+#         kompose.cmd: ../kompose convert -f docker-compose.yml
+#         kompose.version: 1.28.0 (c4137012e)
+#       creationTimestamp: null
+#       labels:
+#         io.kompose.network/host-default: "true"
+#         io.kompose.service: homeassistant
+#     spec:
+#       containers:
+#         - image: homeassistant/home-assistant:latest
+#           name: homeassistant
+#           ports:
+#             - containerPort: 8123
+#           resources: {}
+#           volumeMounts:
+#             - mountPath: /config
+#               name: homeassistant-claim0
+#             - mountPath: /etc/localtime
+#               name: homeassistant-claim1
+#               readOnly: true
+#       restartPolicy: Always
+#       volumes:
+#         - name: homeassistant-claim0
+#           persistentVolumeClaim:
+#             claimName: homeassistant-claim0
+#         - name: homeassistant-claim1
+#           persistentVolumeClaim:
+#             claimName: homeassistant-claim1
+#             readOnly: true
+# status: {}
+# ---
+
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   annotations:
+#     kompose.cmd: ../kompose convert -f docker-compose.yml
+#     kompose.version: 1.28.0 (c4137012e)
+#   creationTimestamp: null
+#   labels:
+#     io.kompose.service: homeassistant
+#   name: homeassistant
+# spec:
+#   type: NodePort
+#   ports:
+#     - name: "8123"
+#       port: 8123
+#       targetPort: 8123
+#       nodePort: 30774
+#   selector:
+#     io.kompose.service: homeassistant
+# status:
+#   loadBalancer: {}
+# ---
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   creationTimestamp: null
+#   labels:
+#     io.kompose.service: homeassistant-claim0
+#   name: homeassistant-claim0
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 100Mi
+# status: {}
+# ---
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   creationTimestamp: null
+#   labels:
+#     io.kompose.service: homeassistant-claim1
+#   name: homeassistant-claim1
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 100Mi
+# status: {}
+
+# ---
