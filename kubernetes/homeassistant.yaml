@@ -1,7 +1,15 @@
 ---
+# Source: portainer/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: home-assistant
+---
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  namespace: home-assistant
   name: homeassistant
 spec:
   accessModes:
@@ -15,6 +23,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  namespace: home-assistant
   name: homeassistant-pv
 spec:
   capacity:
@@ -33,15 +42,13 @@ spec:
               operator: In
               values:
                 - homeassistant
-
-  
-  
 ---
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: home-assistant
   name: home-assistant
 spec:
   replicas: 1
@@ -71,6 +78,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: home-assistant
   name: home-assistant
 spec:
   selector:
