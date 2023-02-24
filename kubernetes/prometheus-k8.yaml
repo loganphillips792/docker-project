@@ -121,13 +121,14 @@ metadata:
 spec:
   selector:
     app: prometheus
+  type: NodePort
   ports:
   - name: promui
     nodePort: 30773
     protocol: TCP
     port: 9090
     targetPort: 9090
-  type: NodePort
+  
 ---
 
 # ---
