@@ -15,6 +15,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Grafana: http://0.0.0.0:30776
 - Portainer: http://0.0.0.0:30775
 - Home Assistant: http://0.0.0.0:30774
+- Prometheus: http://0.0.0.0:30774
 
 # Raspberry Pi Installation
 
