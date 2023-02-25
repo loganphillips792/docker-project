@@ -45,21 +45,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: logging
-  # annotations:
-  #   kompose.cmd: ../kompose convert -f docker-compose.yml
-  #   kompose.version: 1.28.0 (c4137012e)
-  # creationTimestamp: null
-  labels:
-    io.kompose.service: loki
   name: loki
+  namespace: logging
 spec:
   ports:
     - name: "3100"
       port: 3100
       targetPort: 3100
   selector:
-    io.kompose.service: loki
+    app: loki
 status:
   loadBalancer: {}
 ---
