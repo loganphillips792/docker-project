@@ -1,0 +1,133 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logging
+---
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promtail
+  namespace: logging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: promtail
+  template:
+    metadata:
+      labels:
+        app: promtail
+    spec:
+      containers:
+        - name: promtail
+          image: grafana/promtail:2.6.1
+          args:
+            - "-config.file=/etc/promtail/config.yml"
+          ports:
+          - name: http
+            containerPort: 9080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/promtail
+            - name: varlog
+              mountPath: /var/log
+              readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: promtail-config
+        - name: varlog
+          hostPath:
+            path: /var/log
+---
+
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: promtail-config
+  namespace: logging
+data:
+  config.yml: |
+    server:
+      http_listen_port: 9080
+      grpc_listen_port: 0
+      log_level: info
+    positions:
+      filename: /tmp/positions.yaml
+    clients:
+      - url: http://loki.logging.svc.cluster.local:3100/loki/api/v1/push
+    scrape_configs:
+      - job_name: varlogs
+        static_configs:
+          - targets:
+              - localhost
+            labels:
+              job: varlogs
+              __path__: /var/log/*/*.log
+---
+
+
+
+
+
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: logging
+  creationTimestamp: null
+  labels:
+    io.kompose.service: promtail-claim1
+  name: promtail-claim1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: logging
+  creationTimestamp: null
+  labels:
+    io.kompose.service: promtail-claim0
+  name: promtail-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+---
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: logging
+  creationTimestamp: null
+  labels:
+    io.kompose.service: prom-data
+  name: prom-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+
+---

@@ -41,7 +41,7 @@ data:
       editable: true
     - name: Loki
       type: loki
-      url: http://loki:3100
+      url: http://loki.logging.svc.cluster.local:3100
       isDefault: false
       access: proxy
       editable: true
