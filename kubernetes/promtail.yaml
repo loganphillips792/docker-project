@@ -44,7 +44,6 @@ spec:
             path: /var/log
 ---
 
-
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -70,12 +69,6 @@ data:
               job: varlogs
               __path__: /var/log/*/*.log
 ---
-
-
-
-
-
-
 
 ---
 apiVersion: v1
@@ -129,5 +122,4 @@ spec:
     requests:
       storage: 100Mi
 status: {}
-
 ---
