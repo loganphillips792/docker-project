@@ -3,10 +3,10 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: kubernetes-project
-  annotations:
-    kompose.cmd: ./kompose convert -f host/docker-compose.yml
-    kompose.version: 1.28.0 (c4137012e)
-  creationTimestamp: null
+  # annotations:
+  #   kompose.cmd: ./kompose convert -f host/docker-compose.yml
+  #   kompose.version: 1.28.0 (c4137012e)
+  # creationTimestamp: null
   labels:
     io.kompose.service: grafana
   name: grafana
@@ -35,7 +35,7 @@ data:
     datasources:
     - name: Prometheus
       type: prometheus
-      url: http://prometheus:9090 
+      url: http://prometheus.monitoring.svc.cluster.local:9090
       isDefault: true
       access: proxy
       editable: true
@@ -53,10 +53,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: kubernetes-project
-  annotations:
-    kompose.cmd: ./kompose convert -f host/docker-compose.yml
-    kompose.version: 1.28.0 (c4137012e)
-  creationTimestamp: null
+  # annotations:
+  #   kompose.cmd: ./kompose convert -f host/docker-compose.yml
+  #   kompose.version: 1.28.0 (c4137012e)
+  # creationTimestamp: null
   labels:
     io.kompose.service: grafana
   name: grafana
