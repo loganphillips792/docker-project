@@ -1,3 +1,5 @@
+# https://www.owenrumney.co.uk/running-prometheus-in-k8s/
+
 ---
 # Source: portainer/templates/namespace.yaml
 apiVersion: v1
