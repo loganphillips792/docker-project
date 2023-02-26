@@ -166,3 +166,7 @@ Delete:  ~/go/bin/kind and ~/go/pkg/mod/sigs.k8s.io
 go install sigs.k8s.io/kind@v0.17.0
 kind delete cluster
 kind create cluster
+
+## Raspberry Pi
+
+We are going to use K3s for this: https://k3s.io/
