@@ -1,0 +1,88 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: plex
+---
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      containers:
+        - env:
+            - name: PGID
+              value: "1000"
+            - name: PLEX_CLAIM
+            - name: PUID
+              value: "1000"
+            - name: VERSION
+              value: docker
+          image: lscr.io/linuxserver/plex:latest
+          name: plex
+          ports:
+            - containerPort: 32400
+          resources: {}
+      restartPolicy: Always
+---
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plex-service
+  namespace: plex
+spec:
+  type: NodePort
+  ports:
+    - name: pms-web
+      port: 32400
+      targetPort: 32400
+      nodePort: 30772
+  selector:
+    app: plex
+---
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: plexserver            # < name of ingress entry
+#   namespace: plex       # < namespace where place the ingress enty
+
+#   annotations:
+#     kubernetes.io/ingress.class: "nginx"  # < use the nginx ingress controller
+#     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"  # < communicate in https with the backend (service/pod)
+#     cert-manager.io/cluster-issuer: "letsencrypt-prod"     # < use letsencrypt-prod application in kubernetes to generate ssl certificate
+#     nginx.ingress.kubernetes.io/app-root: /web             # < the root directory of the plex webserver
+# spec:
+#   rules:
+#   - host: plexserver.mydomain.com
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: plex-service
+#             port:
+#               name: pms-web # < same label as the port in the service tcp file
+#               # number: 32400
+#   tls: # < placing a host in the TLS config will indicate a cert should be created
+#   - hosts:
+#     - plexserver.mydomain.com
+#     secretName: plexserver.mydomain.com-tls # < cert-manager will store the created certificate in this secret.
+# ---
