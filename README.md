@@ -1,6 +1,11 @@
 # What this is
 
 This is just a small project to practice docker,docker-compose, and K8s
+
+# TODO
+
+- Add https://hub.docker.com/r/hkotel/mealie to both docker-compose and K8s
+
 # Accessing Applications (Docker)
 
 - Heimdall: localhost:80
