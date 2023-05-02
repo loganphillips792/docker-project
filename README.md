@@ -5,6 +5,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 # TODO
 
 - Add https://hub.docker.com/r/hkotel/mealie to both docker-compose and K8s
+- Create Diagram for Kubernetes (show pods and how they interact with each other)
 
 # Accessing Applications (Docker)
 
@@ -131,7 +132,6 @@ docker-compose up
 ## Mac
 
 - Install Kind: go install sigs.k8s.io/kind@v0.17.0
-- Set up cluster
 - On Mac, we need to do some extra configuration due to how Docker works. That is why the kind.config.yaml file is needed. Read me here: https://kind.sigs.k8s.io/docs/user/known-issues/#docker-desktop-for-macos-and-windows
 
 vim kind.config.yaml
@@ -150,7 +150,7 @@ nodes:
 
 ```kind create cluster --config=kind.config.yaml```
 
-kubectl apply -f kubernetes
+Apply all YAML files: `kubectl apply -f kubernetes`
 
 
 
@@ -163,14 +163,12 @@ kubectl apply -f ../Downloads/portainer\(1\).yaml
 
 ```
 
-
-
-
-
-Delete:  ~/go/bin/kind and ~/go/pkg/mod/sigs.k8s.io
-go install sigs.k8s.io/kind@v0.17.0
-kind delete cluster
-kind create cluster
+- To delete Kind from system:
+	- Delete:  ~/go/bin/kind and ~/go/pkg/mod/sigs.k8s.io
+- To reinstall:
+	- go install sigs.k8s.io/kind@v0.17.0
+	- kind delete cluster
+	- kind create cluster
 
 ## Raspberry Pi
 
