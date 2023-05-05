@@ -8,6 +8,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Add WatchTower to both docker-compose and K8s: https://github.com/containrrr/watchtower
 - Create Diagram for Kubernetes (show pods and how they interact with each other)
 - Add Kafka And KHQ: https://github.com/tchiotludo/akhq
+- Create Go app that runs as Cron Job in K8s and sends data to kafka every 15 seconds
 
 # Accessing Applications (Docker)
 
@@ -180,3 +181,13 @@ We are going to use K3s for this: https://k3s.io/
 ## Architecture
 
 Promtail is an agent which ships the contents of local logs to a private Grafana Loki instance or Grafana Cloud. It is usually deployed to every machine that has applications needed to be monitored
+
+Zookeeper is used to manage and coordinate Kafka brokers and maintain metadata about Kafka topics, partitions, and consumer groups. Zookeeper tracks the status of Kafka cluster nodes and helps to maintain data consistency among the brokers. Kafka relies on Zookeeper to maintain the configuration information, and without it, Kafka would not be able to function properly.
+
+## Troubleshooting
+
+## Kubernetes
+
+You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created
+
+If any pods are stuck in a 'Creating' state, deleting the pod so that it recreates will probably fix it (For example, a PVC might not have been created in time for the Pod).
