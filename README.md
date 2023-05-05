@@ -5,7 +5,9 @@ This is just a small project to practice docker,docker-compose, and K8s
 # TODO
 
 - Add https://hub.docker.com/r/hkotel/mealie to both docker-compose and K8s
+- Add WatchTower to both docker-compose and K8s: https://github.com/containrrr/watchtower
 - Create Diagram for Kubernetes (show pods and how they interact with each other)
+- Add Kafka And KHQ: https://github.com/tchiotludo/akhq
 
 # Accessing Applications (Docker)
 
@@ -173,3 +175,8 @@ kubectl apply -f ../Downloads/portainer\(1\).yaml
 ## Raspberry Pi
 
 We are going to use K3s for this: https://k3s.io/
+
+
+## Architecture
+
+Promtail is an agent which ships the contents of local logs to a private Grafana Loki instance or Grafana Cloud. It is usually deployed to every machine that has applications needed to be monitored
