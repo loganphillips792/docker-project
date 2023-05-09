@@ -9,6 +9,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Create Diagram for Kubernetes (show pods and how they interact with each other)
 - Add Kafka And KHQ: https://github.com/tchiotludo/akhq
 - Create Go app that runs as Cron Job in K8s and sends data to kafka every 15 seconds
+- Add https://github.com/qarmin/czkawka to Docker and K8s
 
 # Accessing Applications (Docker)
 
