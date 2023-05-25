@@ -190,8 +190,17 @@ Zookeeper is used to manage and coordinate Kafka brokers and maintain metadata a
 
 ## Troubleshooting
 
-## Kubernetes
+### Kubernetes
 
 You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created
 
 If any pods are stuck in a 'Creating' state, deleting the pod so that it recreates will probably fix it (For example, a PVC might not have been created in time for the Pod).
+
+## Kafka
+
+First, enter pod `kubectl exec -it <pod_name> -n kubernetes-project -- /bin/bash`
+
+- `kafka-topics.sh --create --topic test-topic --partitions 3 --replication-factor 1 --bootstrap-server kafka-service:9092`
+- `kafka-topics.sh --list --bootstrap-server kafka-service:9092`
+- `kafka-console-producer.sh --broker-list kafka-service:9092 --topic test-topic`
+- `kafka-console-consumer.sh --bootstrap-server kafka-service:9092 --topic test-topic --from-beginning`
