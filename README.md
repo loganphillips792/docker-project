@@ -21,6 +21,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Portainer: https://localhost:9443
 - Home Assistant: http://localhost:8123
 - Plex: http://localhost:32400
+- TODO: Kafka
 
 # Accessing Applications (K8s)
 
