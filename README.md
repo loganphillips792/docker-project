@@ -8,6 +8,11 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Add WatchTower to both docker-compose and K8s: https://github.com/containrrr/watchtower
 - Create Diagram for Kubernetes (show pods and how they interact with each other)
 - Add Kafka And KHQ: https://github.com/tchiotludo/akhq
+- Create Go app that runs as Cron Job in K8s and sends data to kafka every 15 seconds (discount scraper)
+- Add https://github.com/qarmin/czkawka to Docker and K8s
+- Add https://github.com/louislam/uptime-kuma to Docker and K8s
+- Add Redis to Docker and K8s
+- Add Prometheus Kafka exporter: https://prometheus.io/docs/instrumenting/exporters/
 
 # Accessing Applications (Docker)
 
@@ -16,6 +21,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Portainer: https://localhost:9443
 - Home Assistant: http://localhost:8123
 - Plex: http://localhost:32400
+- TODO: Kafka
 
 # Accessing Applications (K8s)
 
@@ -25,6 +31,16 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Home Assistant: http://0.0.0.0:30774
 - Prometheus: http://0.0.0.0:30773
 - Plex: http://0.0.0.0:30772
+- Kafka: Read below to learn how to interact with Kafka
+
+## Kafka
+
+First, enter the Kafka Broker pod `kubectl exec -it <pod_name> -n kubernetes-project -- /bin/bash`
+
+- `kafka-topics.sh --create --topic test-topic --partitions 3 --replication-factor 1 --bootstrap-server kafka-service:9092`
+- `kafka-topics.sh --list --bootstrap-server kafka-service:9092`
+- `kafka-console-producer.sh --broker-list kafka-service:9092 --topic test-topic`
+- `kafka-console-consumer.sh --bootstrap-server kafka-service:9092 --topic test-topic --from-beginning`
 
 # Raspberry Pi Installation
 
@@ -180,3 +196,13 @@ We are going to use K3s for this: https://k3s.io/
 ## Architecture
 
 Promtail is an agent which ships the contents of local logs to a private Grafana Loki instance or Grafana Cloud. It is usually deployed to every machine that has applications needed to be monitored
+
+Zookeeper is used to manage and coordinate Kafka brokers and maintain metadata about Kafka topics, partitions, and consumer groups. Zookeeper tracks the status of Kafka cluster nodes and helps to maintain data consistency among the brokers. Kafka relies on Zookeeper to maintain the configuration information, and without it, Kafka would not be able to function properly.
+
+## Troubleshooting
+
+### Kubernetes
+
+You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created
+
+If any pods are stuck in a 'Creating' state, deleting the pod so that it recreates will probably fix it (For example, a PVC might not have been created in time for the Pod).
