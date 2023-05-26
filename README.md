@@ -22,6 +22,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Home Assistant: http://localhost:8123
 - Plex: http://localhost:32400
 - TODO: Kafka
+- TODO: AKHQ
 
 # Accessing Applications (K8s)
 
