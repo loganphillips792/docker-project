@@ -13,6 +13,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Add https://github.com/louislam/uptime-kuma to Docker and K8s
 - Add Redis to Docker and K8s
 - Add Prometheus Kafka exporter: https://prometheus.io/docs/instrumenting/exporters/
+- Add https://github.com/wger-project/wger to Docker and K8s
 
 # Accessing Applications (Docker)
 
