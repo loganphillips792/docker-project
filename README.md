@@ -34,6 +34,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Prometheus: http://0.0.0.0:30773
 - Plex: http://0.0.0.0:30772
 - Kafka: Read below to learn how to interact with Kafka
+- AKHQ: 
 
 ## Kafka
 
@@ -110,7 +111,7 @@ Note: I am using a Raspberry Pi 3B with ARMV7 cpu architecture (32 bit)
 }
 ```
 
-- ```udo systemctl restart docker```
+- ```sudo systemctl restart docker```
 - ```docker-compose up --force-recreate``` (Docker plugin will only work on newly created containers)
 
 # Running on Mac
@@ -205,6 +206,8 @@ Zookeeper is used to manage and coordinate Kafka brokers and maintain metadata a
 
 ### Kubernetes
 
-You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created
+You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created.
+
+It does take several minutes for all the containers to get into a running state.
 
 If any pods are stuck in a 'Creating' state, deleting the pod so that it recreates will probably fix it (For example, a PVC might not have been created in time for the Pod).

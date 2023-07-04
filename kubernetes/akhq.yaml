@@ -43,6 +43,11 @@ spec:
           image: tchiotludo/akhq:latest
           ports:
             - containerPort: 8080
+          volumeMounts:
+          - name: config-volume
+            mountPath: /app/application.yml
+            subPath: application.yml
+            readOnly: true
       volumes:
       - name: config-volume
         configMap:
@@ -59,6 +64,7 @@ metadata:
     app: akhq
   namespace: kubernetes-project
 spec:
+  type: NodePort
   ports:
     - protocol: TCP
       port: 80
@@ -66,5 +72,4 @@ spec:
       nodePort: 30771  # Specify a NodePort value between 30000-32767
   selector:
     app: akhq
-  type: NodePort
 ---
