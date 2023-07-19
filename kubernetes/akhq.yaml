@@ -11,6 +11,14 @@ data:
         access-log:
           enabled: false
           name: org.akhq.log.access
+    micronaut:
+      security:
+        token:
+          jwt:
+            signatures:
+              secret:
+                generator:
+                  secret: pleasechangeme
     # micronaut:
     #   application:
     #     name: akhq
