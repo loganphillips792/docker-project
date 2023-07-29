@@ -53,7 +53,9 @@ metadata:
   namespace: kubernetes-project
 spec:
   ports:
-  - port: 9092
+    - name: "9092" 
+      port: 9092
+      targetPort: 9092 # this is needed for akhq to be able to communicate with Kafka. When I left targetPort off, AKHQ would not load
   selector:
     app: kafka-broker
 ---

@@ -11,6 +11,11 @@ data:
         access-log:
           enabled: false
           name: org.akhq.log.access
+      connections:
+        my-kafka-test:
+          properties:
+            bootstrap.servers: "http://kafka-service.kubernetes-project.svc.cluster.local:9092"
+
     micronaut:
       security:
         token:
@@ -22,10 +27,6 @@ data:
     # micronaut:
     #   application:
     #     name: akhq
-
-    # kafka:
-    #   bootstrap:
-    #     servers: http://akhq.kubernetes-project.svc.cluster.local:8080
 ---
 
 ---

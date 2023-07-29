@@ -34,7 +34,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Prometheus: http://0.0.0.0:30773
 - Plex: http://0.0.0.0:30772
 - Kafka: Read below to learn how to interact with Kafka
-- AKHQ: 
+- AKHQ:  http://0.0.0.0:30771
 
 ## Kafka
 
@@ -208,6 +208,6 @@ Zookeeper is used to manage and coordinate Kafka brokers and maintain metadata a
 
 You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created.
 
-It does take several minutes for all the containers to get into a running state.
+It does take several minutes for all the containers to get into a running state. Sometimes it takes around 8 minutes.
 
 If any pods are stuck in a 'Creating' state, deleting the pod so that it recreates will probably fix it (For example, a PVC might not have been created in time for the Pod).
