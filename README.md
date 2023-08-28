@@ -14,6 +14,11 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Add Redis to Docker and K8s
 - Add Prometheus Kafka exporter: https://prometheus.io/docs/instrumenting/exporters/
 - Add https://github.com/wger-project/wger to Docker and K8s
+- Alert manager for prometheus
+	- https://devopscube.com/alert-manager-kubernetes-guide/
+	- https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/
+	- https://prometheus.io/docs/alerting/latest/alertmanager/
+	- https://github.com/prometheus/alertmanager
 
 # Accessing Applications (Docker)
 
