@@ -19,6 +19,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 	- https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/
 	- https://prometheus.io/docs/alerting/latest/alertmanager/
 	- https://github.com/prometheus/alertmanager
+- Create simple golang app for Kubernetes that writes random data to Kafka
 
 # Accessing Applications (Docker)
 
