@@ -222,3 +222,7 @@ You will have to run `kubectl apply -f kubernetes` twice, due to the order in wh
 It does take several minutes for all the containers to get into a running state. Sometimes it takes around 8 minutes.
 
 If any pods are stuck in a 'Creating' state, deleting the pod so that it recreates will probably fix it (For example, a PVC might not have been created in time for the Pod).
+
+
+
+- kubectl get pods -A | awk '{print $4}'  - only print out status column
