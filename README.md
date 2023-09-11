@@ -50,6 +50,12 @@ First, enter the Kafka Broker pod `kubectl exec -it <pod_name> -n kubernetes-pro
 - `kafka-console-producer.sh --broker-list kafka-service:9092 --topic test-topic`
 - `kafka-console-consumer.sh --bootstrap-server kafka-service:9092 --topic test-topic --from-beginning`
 
+
+- Fining config inside pod
+	- kubectl exec -it kafka-broker-5d4c874c5f-xj5mp -n kubernetes-project  -- /bin/bash
+	- find . -name server*
+	- cat ./opt/kafka_2.13-2.8.1/config/server.properties | grep "advertised"
+
 # Raspberry Pi Installation
 
 Note: I am using a Raspberry Pi 3B with ARMV7 cpu architecture (32 bit)

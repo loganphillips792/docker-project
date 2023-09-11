@@ -98,8 +98,9 @@ spec:
 
 ---
 # kubectl exec -it dnsutils -n kubernetes-project -- /bin/bash
-  # dnslookup
+  # nslookup
   # kubernetes.default.svc.cluster.local (successful)
+  # kafka-service.kubernetes-project.svc.cluster.local (successful)
 # OR kubectl exec -i -t dnsutils -- nslookup kafka-service
 apiVersion: v1
 kind: Pod
