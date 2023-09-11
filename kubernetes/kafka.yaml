@@ -56,8 +56,10 @@ spec:
     - name: "9092" 
       port: 9092
       targetPort: 9092 # this is needed for akhq to be able to communicate with Kafka. When I left targetPort off, AKHQ would not load
+      protocol: TCP # default
   selector:
     app: kafka-broker
+  type: ClusterIP # default
 ---
 
 ---
