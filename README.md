@@ -42,6 +42,13 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Kafka: Read below to learn how to interact with Kafka
 - AKHQ:  http://0.0.0.0:30771
 
+- Setting context
+	- cat ~/.kube/config
+	- kubectl config set-context main_context --namespace=kubernetes-project --cluster=kind-kind --user=kind-kind
+	- kubectl config use-context main_context
+	- kubectl config current-context
+	- kubectl config unset contexts.main_context
+
 ## Kafka
 
 First, enter the Kafka Broker pod `kubectl exec -it <pod_name> -n kubernetes-project -- /bin/bash`
