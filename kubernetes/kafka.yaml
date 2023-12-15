@@ -90,7 +90,7 @@ spec:
         - name: KAFKA_LISTENERS
           value: PLAINTEXT://:9092
         - name: KAFKA_ADVERTISED_LISTENERS
-          value: PLAINTEXT://kafka-broker:9092
+          value: PLAINTEXT://kafka-service.kubernetes-project.svc.cluster.local:9092 # has to be the same value as bootstrap.servers in akhq.yaml
         image: wurstmeister/kafka
         imagePullPolicy: IfNotPresent
         name: kafka-broker
