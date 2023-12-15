@@ -14,7 +14,7 @@ data:
       connections:
         my-kafka-test:
           properties:
-            bootstrap.servers: "http://kafka-service.kubernetes-project.svc.cluster.local:9092" # a list of host:port of your Kafka brokers
+            bootstrap.servers: "http://kafka-service.kubernetes-project.svc.cluster.local:9092" # a list of host:port of your Kafka brokers  <service-name>.<namespace>.svc.cluster.local:<port>
 
     micronaut:
       security:

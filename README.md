@@ -30,6 +30,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Plex: http://localhost:32400
 - TODO: Kafka
 - TODO: AKHQ
+- TODO: Add Prometheus URL (should already be available)
 
 # Accessing Applications (K8s)
 
@@ -199,8 +200,7 @@ If you want to delete the cluster and start over: ```kind delete cluster```
 
 ```
 kind create cluster --config=kind.config.yaml
-kubectl apply -f ../Downloads/portainer\(1\).yaml
-
+kubectl apply -f kubernetes/
 ```
 
 - To delete Kind from system:
