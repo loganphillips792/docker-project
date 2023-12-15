@@ -1,0 +1,120 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: akhq-config
+  namespace: kubernetes-project
+data:
+  application.yml: |
+    akhq:
+      server:
+        access-log:
+          enabled: false
+          name: org.akhq.log.access
+      connections:
+        my-kafka-test:
+          properties:
+            bootstrap.servers: "http://kafka-service.kubernetes-project.svc.cluster.local:9092" # a list of host:port of your Kafka brokers  <service-name>.<namespace>.svc.cluster.local:<port>
+
+    micronaut:
+      security:
+        token:
+          jwt:
+            signatures:
+              secret:
+                generator:
+                  secret: pleasechangeme
+    # micronaut:
+    #   application:
+    #     name: akhq
+---
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: akhq
+  labels:
+    app: akhq
+  namespace: kubernetes-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: akhq
+  template:
+    metadata:
+      labels:
+        app: akhq
+    spec:
+      containers:
+        - name: akhq
+          image: tchiotludo/akhq:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+          - name: config-volume
+            mountPath: /app/application.yml
+            subPath: application.yml
+            readOnly: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: akhq-config
+
+---
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: akhq
+  labels:
+    app: akhq
+  namespace: kubernetes-project
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30771  # Specify a NodePort value between 30000-32767
+  selector:
+    app: akhq
+---
+
+---
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: dns-test-pod
+#   namespace: kubernetes-project
+# spec:
+#   containers:
+#   - name: dns-test-container
+#     image: busybox
+#     command: ["nslookup", "kafka-broker"]
+---
+
+---
+# kubectl exec -it dnsutils -n kubernetes-project -- /bin/bash
+  # nslookup
+  # kubernetes.default.svc.cluster.local (successful)
+  # kafka-service.kubernetes-project.svc.cluster.local (successful)
+# OR kubectl exec -i -t dnsutils -- nslookup kafka-service
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dnsutils
+  namespace: kubernetes-project
+spec:
+  containers:
+  - name: dnsutils
+    image: registry.k8s.io/e2e-test-images/jessie-dnsutils:1.3
+    command:
+      - sleep
+      - "infinity"
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+
+---

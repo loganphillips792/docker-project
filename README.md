@@ -13,6 +13,13 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Add https://github.com/louislam/uptime-kuma to Docker and K8s
 - Add Redis to Docker and K8s
 - Add Prometheus Kafka exporter: https://prometheus.io/docs/instrumenting/exporters/
+- Add https://github.com/wger-project/wger to Docker and K8s
+- Alert manager for prometheus
+	- https://devopscube.com/alert-manager-kubernetes-guide/
+	- https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/
+	- https://prometheus.io/docs/alerting/latest/alertmanager/
+	- https://github.com/prometheus/alertmanager
+- Create simple golang app for Kubernetes that writes random data to Kafka
 
 # Accessing Applications (Docker)
 
@@ -22,6 +29,8 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Home Assistant: http://localhost:8123
 - Plex: http://localhost:32400
 - TODO: Kafka
+- TODO: AKHQ
+- TODO: Add Prometheus URL (should already be available)
 
 # Accessing Applications (K8s)
 
@@ -32,6 +41,14 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Prometheus: http://0.0.0.0:30773
 - Plex: http://0.0.0.0:30772
 - Kafka: Read below to learn how to interact with Kafka
+- AKHQ:  http://0.0.0.0:30771
+
+- Setting context
+	- cat ~/.kube/config
+	- kubectl config set-context main_context --namespace=kubernetes-project --cluster=kind-kind --user=kind-kind
+	- kubectl config use-context main_context
+	- kubectl config current-context
+	- kubectl config unset contexts.main_context
 
 ## Kafka
 
@@ -41,6 +58,12 @@ First, enter the Kafka Broker pod `kubectl exec -it <pod_name> -n kubernetes-pro
 - `kafka-topics.sh --list --bootstrap-server kafka-service:9092`
 - `kafka-console-producer.sh --broker-list kafka-service:9092 --topic test-topic`
 - `kafka-console-consumer.sh --bootstrap-server kafka-service:9092 --topic test-topic --from-beginning`
+
+
+- Fining config inside pod
+	- kubectl exec -it kafka-broker-5d4c874c5f-xj5mp -n kubernetes-project  -- /bin/bash
+	- find . -name server*
+	- cat ./opt/kafka_2.13-2.8.1/config/server.properties | grep "advertised"
 
 # Raspberry Pi Installation
 
@@ -108,7 +131,7 @@ Note: I am using a Raspberry Pi 3B with ARMV7 cpu architecture (32 bit)
 }
 ```
 
-- ```udo systemctl restart docker```
+- ```sudo systemctl restart docker```
 - ```docker-compose up --force-recreate``` (Docker plugin will only work on newly created containers)
 
 # Running on Mac
@@ -177,8 +200,7 @@ If you want to delete the cluster and start over: ```kind delete cluster```
 
 ```
 kind create cluster --config=kind.config.yaml
-kubectl apply -f ../Downloads/portainer\(1\).yaml
-
+kubectl apply -f kubernetes/
 ```
 
 - To delete Kind from system:
@@ -203,6 +225,12 @@ Zookeeper is used to manage and coordinate Kafka brokers and maintain metadata a
 
 ### Kubernetes
 
-You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created
+You will have to run `kubectl apply -f kubernetes` twice, due to the order in which the K8s objects are created.
+
+It does take several minutes for all the containers to get into a running state. Sometimes it takes around 8 minutes.
 
 If any pods are stuck in a 'Creating' state, deleting the pod so that it recreates will probably fix it (For example, a PVC might not have been created in time for the Pod).
+
+
+
+- kubectl get pods -A | awk '{print $4}'  - only print out status column
