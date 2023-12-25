@@ -58,12 +58,12 @@ spec:
         ports:
         - containerPort: 32400
         env:
-          # - name: TZ
-          #   value: "Your_Time_Zone"
+          - name: TZ
+            value: "Etc/UTC"
           - name: PLEX_CLAIM
-            value: "Your_Plex_Claim_Token"
+            value: "claim-KkcyLxkDngV2i5wSgrRa"
         volumeMounts:
-        - mountPath: "/Volumes/Elements"
+        - mountPath: "/Volumes/Elements/movies"
           name: plex-vol
       volumes:
       - name: plex-vol
