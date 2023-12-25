@@ -20,6 +20,12 @@ This is just a small project to practice docker,docker-compose, and K8s
 	- https://prometheus.io/docs/alerting/latest/alertmanager/
 	- https://github.com/prometheus/alertmanager
 - Create simple golang app for Kubernetes that writes random data to Kafka
+- Fix Plex (https://www.debontonline.com/2021/01/part-14-deploy-plexserver-yaml-with.html)
+- Redix (https://www.youtube.com/watch?v=JmCn7k0PlV4)
+- https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/
+	- https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/
+	- https://github.com/kubernetes/dashboard
+	- https://k9scli.io/
 
 # Accessing Applications (Docker)
 

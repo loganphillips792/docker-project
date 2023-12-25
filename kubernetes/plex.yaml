@@ -1,51 +1,21 @@
-# https://www.debontonline.com/2021/01/part-14-deploy-plexserver-yaml-with.html
-# https://www.reddit.com/r/kubernetes/comments/so5q1u/easy_way_to_add_data_to_pvc/
-
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: plex
+  name: plexserver
 ---
-
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: plex
-  namespace: plex
+  name: plex-pvc
+  namespace: plexserver
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: plex
-  strategy: {}
-  template:
-    metadata:
-      labels:
-        app: plex
-    spec:
-      containers:
-        - env:
-            - name: PGID
-              value: "1000"
-            - name: PLEX_CLAIM
-            - name: PUID
-              value: "1000"
-            - name: VERSION
-              value: docker
-          image: lscr.io/linuxserver/plex:latest
-          name: plex
-          ports:
-            - containerPort: 32400
-          volumeMounts:
-            - name: my-volume
-              mountPath: /Volumes/Elements/movies
-      volumes:
-      - name: my-volume
-        persistentVolumeClaim:
-          claimName: my-pvc
-      restartPolicy: Always
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
 ---
 
 ---
@@ -53,7 +23,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: plex-service
-  namespace: plex
+  namespace: plexserver
 spec:
   type: NodePort
   ports:
@@ -61,52 +31,42 @@ spec:
       port: 32400
       targetPort: 32400
       nodePort: 30772
+      protocol: TCP
   selector:
     app: plex
 ---
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: my-pvc
-  namespace: plex
+  name: plex-deployment
+  namespace: plexserver
 spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: local-storage
-  resources:
-    requests:
-      storage: 1Gi
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      containers:
+      - name: plex
+        image: lscr.io/linuxserver/plex:latest
+        ports:
+        - containerPort: 32400
+        env:
+          # - name: TZ
+          #   value: "Your_Time_Zone"
+          - name: PLEX_CLAIM
+            value: "Your_Plex_Claim_Token"
+        volumeMounts:
+        - mountPath: "/Volumes/Elements"
+          name: plex-vol
+      volumes:
+      - name: plex-vol
+        persistentVolumeClaim:
+          claimName: plex-pvc
 ---
-
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: plexserver            # < name of ingress entry
-#   namespace: plex       # < namespace where place the ingress enty
-
-#   annotations:
-#     kubernetes.io/ingress.class: "nginx"  # < use the nginx ingress controller
-#     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"  # < communicate in https with the backend (service/pod)
-#     cert-manager.io/cluster-issuer: "letsencrypt-prod"     # < use letsencrypt-prod application in kubernetes to generate ssl certificate
-#     nginx.ingress.kubernetes.io/app-root: /web             # < the root directory of the plex webserver
-# spec:
-#   rules:
-#   - host: plexserver.mydomain.com
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: plex-service
-#             port:
-#               name: pms-web # < same label as the port in the service tcp file
-#               # number: 32400
-#   tls: # < placing a host in the TLS config will indicate a cert should be created
-#   - hosts:
-#     - plexserver.mydomain.com
-#     secretName: plexserver.mydomain.com-tls # < cert-manager will store the created certificate in this secret.
-# ---
