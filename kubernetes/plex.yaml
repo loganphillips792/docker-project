@@ -61,7 +61,7 @@ spec:
           - name: TZ
             value: "Etc/UTC"
           - name: PLEX_CLAIM
-            value: "claim-KkcyLxkDngV2i5wSgrRa"
+            value: "claim-bgEGPZQiHXFQ4NGjJcE1" # Need to go to https://www.plex.tv/claim/ to get this value. This is required for the Plex Media Server to be set up correctly
         volumeMounts:
         - mountPath: "/Volumes/Elements/movies"
           name: plex-vol
