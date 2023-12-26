@@ -26,6 +26,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 	- https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/
 	- https://github.com/kubernetes/dashboard
 	- https://k9scli.io/
+- Python container that gets pushed to Dockerhub and gets pulled and run as cronjob in K8s
 
 # Accessing Applications (Docker)
 
