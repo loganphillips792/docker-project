@@ -16,17 +16,21 @@ data:
           properties:
             bootstrap.servers: "http://kafka-service.kubernetes-project.svc.cluster.local:9092" # a list of host:port of your Kafka brokers  <service-name>.<namespace>.svc.cluster.local:<port>
 
-    micronaut:
+
+    micronaut: # https://akhq.io/docs/configuration/authentifications/basic-auth.html
       security:
-        token:
-          jwt:
-            signatures:
-              secret:
-                generator:
-                  secret: pleasechangeme
-    # micronaut:
-    #   application:
-    #     name: akhq
+        enabled: true
+    akhq.security:
+      basic-auth:
+        - username: admin
+          password: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8" # echo -n "password" | shasum -a 256
+          passwordHash: SHA256
+          groups:
+          - admin
+        - username: reader
+          password: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+          groups:
+          - reader
 ---
 
 ---
