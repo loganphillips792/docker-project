@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: plexserver
 ---
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -61,12 +62,18 @@ spec:
           - name: TZ
             value: "Etc/UTC"
           - name: PLEX_CLAIM
-            value: "claim-bgEGPZQiHXFQ4NGjJcE1" # Need to go to https://www.plex.tv/claim/ to get this value. This is required for the Plex Media Server to be set up correctly
+            value: "claim-ZZWuD89zeU59tkSyuWxG" # Need to go to https://www.plex.tv/claim/ to get this value. This is required for the Plex Media Server to be set up correctly
         volumeMounts:
-        - mountPath: "/Volumes/Elements/movies"
-          name: plex-vol
+        # - mountPath: "/Volumes/Elements/movies"
+        #   name: plex-vol
+        - mountPath: "/tv" # Path inside the container
+          name: host-tvshows
       volumes:
       - name: plex-vol
         persistentVolumeClaim:
           claimName: plex-pvc
+      - name: host-tvshows
+        hostPath:
+          path: "/tv"
+          type: Directory
 ---

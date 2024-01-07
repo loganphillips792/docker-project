@@ -51,6 +51,10 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Home Assistant: http://0.0.0.0:30774
 - Prometheus: http://0.0.0.0:30773
 - Plex: http://0.0.0.0:30772
+	- First, go to https://www.plex.tv/claim/ to get the claim and put it in the YAML file
+	- Once pod is running, go here: http://0.0.0.0:30772/
+	- The setup wizard should come up
+	- If you have any trouble, first check if the plexserver container is running: `kubectl get pods <pod-name> -o jsonpath='{.spec.containers[*].name}' -n plexserver` and check the logs of the pod
 - Kafka: Read below to learn how to interact with Kafka
 - AKHQ:  http://0.0.0.0:30771
 
