@@ -55,8 +55,10 @@ This is just a small project to practice docker,docker-compose, and K8s
 	- Once pod is running, go here: http://0.0.0.0:30772/
 	- The setup wizard should come up
 	- If you have any trouble, first check if the plexserver container is running: `kubectl get pods <pod-name> -o jsonpath='{.spec.containers[*].name}' -n plexserver` and check the logs of the pod
+	- Note: view this link to see how Plex reads media: https://support.plex.tv/articles/naming-and-organizing-your-movie-media-files/
 - Kafka: Read below to learn how to interact with Kafka
 - AKHQ:  http://0.0.0.0:30771
+- Homepage: http://0.0.0.0:30770
 
 - Setting context
 	- cat ~/.kube/config
