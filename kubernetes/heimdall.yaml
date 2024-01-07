@@ -37,7 +37,7 @@ metadata:
   # creationTimestamp: null
   labels:
     io.kompose.service: heimdall
- 
+
 spec:
   replicas: 1
   selector:

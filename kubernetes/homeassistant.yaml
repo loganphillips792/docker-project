@@ -35,7 +35,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   nodeAffinity:
-     required:
+    required:
       nodeSelectorTerms:
         - matchExpressions:
             - key: node-type

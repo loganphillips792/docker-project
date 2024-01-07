@@ -3,6 +3,9 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
+  extraMounts: # this is needed for plex to be able to mount the media from the host machine (either on the internal or external drive). You also need to add this directory to Docker Hub's shared files
+  - hostPath: /Users/logan/Desktop/tvShows
+    containerPath: /tv
   extraPortMappings:
   - containerPort: 30777
     hostPort: 30777

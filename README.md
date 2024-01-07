@@ -20,6 +20,17 @@ This is just a small project to practice docker,docker-compose, and K8s
 	- https://prometheus.io/docs/alerting/latest/alertmanager/
 	- https://github.com/prometheus/alertmanager
 - Create simple golang app for Kubernetes that writes random data to Kafka
+- Fix Plex (https://www.debontonline.com/2021/01/part-14-deploy-plexserver-yaml-with.html)
+- Redix (https://www.youtube.com/watch?v=JmCn7k0PlV4)
+- https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/
+	- https://www.reddit.com/r/kubernetes/comments/18oxqe4/are_there_any_better_kubernetes_dashboard_options/
+	- https://github.com/kubernetes/dashboard
+	- https://k9scli.io/
+- Python container that gets pushed to Dockerhub and gets pulled and run as cronjob in K8s
+- https://github.com/gethomepage/homepage , https://gethomepage.dev/latest/installation/k8s/
+- https://github.com/ArchiveBox/ArchiveBox (add to docker and k8s)
+- https://opentelemetry.io/
+- https://github.com/louislam/uptime-kuma
 
 # Accessing Applications (Docker)
 
@@ -40,6 +51,10 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Home Assistant: http://0.0.0.0:30774
 - Prometheus: http://0.0.0.0:30773
 - Plex: http://0.0.0.0:30772
+	- First, go to https://www.plex.tv/claim/ to get the claim and put it in the YAML file
+	- Once pod is running, go here: http://0.0.0.0:30772/
+	- The setup wizard should come up
+	- If you have any trouble, first check if the plexserver container is running: `kubectl get pods <pod-name> -o jsonpath='{.spec.containers[*].name}' -n plexserver` and check the logs of the pod
 - Kafka: Read below to learn how to interact with Kafka
 - AKHQ:  http://0.0.0.0:30771
 
