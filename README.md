@@ -31,6 +31,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - https://github.com/ArchiveBox/ArchiveBox (add to docker and k8s)
 - https://opentelemetry.io/
 - https://github.com/louislam/uptime-kuma
+- https://github.com/rancher/rancher
 
 # Accessing Applications (Docker)
 
