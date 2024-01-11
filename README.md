@@ -32,6 +32,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 - https://opentelemetry.io/
 - https://github.com/louislam/uptime-kuma
 - https://github.com/rancher/rancher
+- Tie images to specific version instead of using :latest
 
 # Accessing Applications (Docker)
 
