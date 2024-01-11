@@ -61,6 +61,18 @@ data:
         - My Third Service:
             href: http://localhost/
             description: Homepage is 😎
+
+    - Another group: 
+        - Plex:
+            icon: plex.png
+            href: https://plex.my.host
+            description: Watch movies and TV shows.
+            server: localhost
+            container: plex
+            widget:
+              type: tautulli
+              url: http://172.16.1.1:8181
+              key: aabbccddeeffgghhiijjkkllmmnnoo
   widgets.yaml: |
     - kubernetes:
         cluster:
