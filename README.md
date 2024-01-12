@@ -57,6 +57,7 @@ This is just a small project to practice docker,docker-compose, and K8s
 	- If you have any trouble, first check if the plexserver container is running: `kubectl get pods <pod-name> -o jsonpath='{.spec.containers[*].name}' -n plexserver` and check the logs of the pod
 - Kafka: Read below to learn how to interact with Kafka
 - AKHQ:  http://0.0.0.0:30771
+- python project: 
 
 - Setting context
 	- cat ~/.kube/config
