@@ -1,0 +1,76 @@
+# Monitor your Plex Media Server. Used over as a widget on homepage.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tautulli
+  labels:
+    app: tautulli
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tautulli
+  template:
+    metadata:
+      labels:
+        app: tautulli
+    spec:
+      containers:
+      - name: tautulli
+        securityContext:
+          privileged: true
+        image: tautulli/tautulli
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8181
+        env:
+          - name: TZ
+            value: "EST5EDT"
+        livenessProbe:
+          failureThreshold: 10000
+          httpGet:
+            path: /
+            port: 8181
+        volumeMounts:
+          - mountPath: "/config"
+            name: config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: tautulli-config
+---
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tautulli
+  labels:
+    k8s-app: tautulli
+spec:
+  ports:
+  - port: 8181
+    targetPort: 8181
+    protocol: TCP
+    name: http
+  selector:
+    k8s-app: tautulli
+---
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: tautulli-config
+  labels:
+    k8s-app: tautulli
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
