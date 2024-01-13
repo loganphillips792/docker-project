@@ -35,6 +35,7 @@ Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
 - https://github.com/louislam/uptime-kuma
 - https://github.com/rancher/rancher
 - Tie images to specific version instead of using :latest
+- https://github.com/kubernetes-sigs/metrics-server
 
 # Accessing Applications (Docker)
 
