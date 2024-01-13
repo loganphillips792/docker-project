@@ -13,10 +13,12 @@ spec:
   selector:
     matchLabels:
       app: tautulli
+      k8s-app: tautulli
   template:
     metadata:
       labels:
         app: tautulli
+        k8s-app: tautulli
     spec:
       containers:
       - name: tautulli
@@ -51,11 +53,17 @@ metadata:
   labels:
     k8s-app: tautulli
 spec:
+  type: NodePort
   ports:
-  - port: 8181
+  # - port: 8181
+  #   targetPort: 8181
+  #   protocol: TCP
+  #   name: http
+  - name: tautulli-web
+    port: 8181
     targetPort: 8181
+    nodePort: 30769
     protocol: TCP
-    name: http
   selector:
     k8s-app: tautulli
 ---
@@ -73,4 +81,32 @@ spec:
   resources:
     requests:
       storage: 1Gi
+---
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tautulli
+  labels:
+    k8s-app: tautulli
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  tls:
+    - hosts:
+      - "tautulli.k.oneill.net"
+      secretName: "tautulli-tls"
+  rules:
+    - host: "tautulli.k.oneill.net"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tautulli
+                port:
+                  number: 8181
 ---

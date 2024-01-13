@@ -2,6 +2,8 @@
 
 This is just a small project to practice docker,docker-compose, and K8s
 
+Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
+
 # TODO
 
 - Add https://hub.docker.com/r/hkotel/mealie to both docker-compose and K8s
@@ -61,6 +63,9 @@ This is just a small project to practice docker,docker-compose, and K8s
 - Kafka: Read below to learn how to interact with Kafka
 - AKHQ:  http://0.0.0.0:30771
 - Homepage: http://0.0.0.0:30770
+- tautulli: http://0.0.0.0:30769/
+	- Plex Hostname: plex-service.plexserver.svc.cluster.local
+	- Plex Port: 32400
 
 - Setting context
 	- cat ~/.kube/config
