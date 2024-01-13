@@ -71,8 +71,8 @@ data:
             container: plex
             widget:
               type: tautulli
-              url: http://172.16.1.1:8181
-              key: aabbccddeeffgghhiijjkkllmmnnoo
+              url: tautulli.default.svc.cluster.local:8181
+              key: PpPAjEvYBJXfiUC8V35kdOq5DjAkM2QD # from Tautulli: Settings > Web Interface > Bottom of the page
   widgets.yaml: |
     - kubernetes:
         cluster:
