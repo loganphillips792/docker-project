@@ -1,3 +1,5 @@
+# https://www.reddit.com/r/htmx/comments/16onteo/i_implemented_the_htmx_examples_in_flask/
+
 import time
 import logging
 from flask import Flask
