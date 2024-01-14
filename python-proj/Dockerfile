@@ -9,7 +9,7 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-# Make port 5000 available to the world outside this container
+# Make port 8080 available to the world outside this container
 EXPOSE 8080
 
 # Command to run the application
