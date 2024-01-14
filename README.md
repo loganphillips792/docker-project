@@ -33,9 +33,13 @@ Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
 - https://github.com/ArchiveBox/ArchiveBox (add to docker and k8s)
 - https://opentelemetry.io/
 - https://github.com/louislam/uptime-kuma
+<<<<<<< HEAD
+- https://github.com/claytono/kubernetes-config/blob/master/tautulli/deployment.yaml
+=======
 - https://github.com/rancher/rancher
 - Tie images to specific version instead of using :latest
 - https://github.com/kubernetes-sigs/metrics-server
+>>>>>>> main
 
 # Accessing Applications (Docker)
 
@@ -67,6 +71,7 @@ Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
 - tautulli: http://0.0.0.0:30769/
 	- Plex Hostname: plex-service.plexserver.svc.cluster.local
 	- Plex Port: 32400
+- python project: http://0.0.0.0:30768/
 
 - Setting context
 	- cat ~/.kube/config
@@ -91,6 +96,8 @@ First, enter the Kafka Broker pod `kubectl exec -it <pod_name> -n kubernetes-pro
 	- cat ./opt/kafka_2.13-2.8.1/config/server.properties | grep "advertised"
 
 # Raspberry Pi Installation
+
+## Docker Installation
 
 Note: I am using a Raspberry Pi 3B with ARMV7 cpu architecture (32 bit)
 
@@ -158,6 +165,10 @@ Note: I am using a Raspberry Pi 3B with ARMV7 cpu architecture (32 bit)
 
 - ```sudo systemctl restart docker```
 - ```docker-compose up --force-recreate``` (Docker plugin will only work on newly created containers)
+
+## K3s Installation
+
+https://k3s.io/
 
 # Running on Mac
 
