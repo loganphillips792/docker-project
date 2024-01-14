@@ -19,7 +19,7 @@
 
 `docker build  -t mypythonapp:latest .`
 
-`docker run mypythonapp:latest`
+`docker run -p 8080:8080 mypythonapp:latest`
 
 ## Pushing to Dockerhub
 
