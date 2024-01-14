@@ -2,6 +2,8 @@
 
 This is just a small project to practice docker,docker-compose, and K8s
 
+Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
+
 # TODO
 
 - Add https://hub.docker.com/r/hkotel/mealie to both docker-compose and K8s
@@ -31,6 +33,9 @@ This is just a small project to practice docker,docker-compose, and K8s
 - https://github.com/ArchiveBox/ArchiveBox (add to docker and k8s)
 - https://opentelemetry.io/
 - https://github.com/louislam/uptime-kuma
+- https://github.com/rancher/rancher
+- Tie images to specific version instead of using :latest
+- https://github.com/kubernetes-sigs/metrics-server
 
 # Accessing Applications (Docker)
 
@@ -55,8 +60,13 @@ This is just a small project to practice docker,docker-compose, and K8s
 	- Once pod is running, go here: http://0.0.0.0:30772/
 	- The setup wizard should come up
 	- If you have any trouble, first check if the plexserver container is running: `kubectl get pods <pod-name> -o jsonpath='{.spec.containers[*].name}' -n plexserver` and check the logs of the pod
+	- Note: view this link to see how Plex reads media: https://support.plex.tv/articles/naming-and-organizing-your-movie-media-files/
 - Kafka: Read below to learn how to interact with Kafka
 - AKHQ:  http://0.0.0.0:30771
+- Homepage: http://0.0.0.0:30770
+- tautulli: http://0.0.0.0:30769/
+	- Plex Hostname: plex-service.plexserver.svc.cluster.local
+	- Plex Port: 32400
 
 - Setting context
 	- cat ~/.kube/config
