@@ -5,3 +5,6 @@
 `go run main.go`
 
 `go fmt .`
+
+
+templ generate
