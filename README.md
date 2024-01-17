@@ -33,13 +33,9 @@ Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
 - https://github.com/ArchiveBox/ArchiveBox (add to docker and k8s)
 - https://opentelemetry.io/
 - https://github.com/louislam/uptime-kuma
-<<<<<<< HEAD
-- https://github.com/claytono/kubernetes-config/blob/master/tautulli/deployment.yaml
-=======
 - https://github.com/rancher/rancher
 - Tie images to specific version instead of using :latest
 - https://github.com/kubernetes-sigs/metrics-server
->>>>>>> main
 
 # Accessing Applications (Docker)
 
