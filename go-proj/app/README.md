@@ -4,7 +4,7 @@
 
 `go run main.go`
 
-`go fmt .`
+`gofmt -s -w .`
 
 
 templ generate

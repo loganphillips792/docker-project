@@ -2,10 +2,10 @@ package handler
 
 import (
 	"context"
+	"github.com/loganphillips792/kubernetes-project/components"
+	"github.com/loganphillips792/kubernetes-project/services"
 	"log/slog"
 	"net/http"
-	"github.com/loganphillips792/kubernetes-project/services"
-	"github.com/loganphillips792/kubernetes-project/components"
 )
 
 // func GetCount
@@ -18,13 +18,13 @@ type CountService interface {
 }
 
 type DefaultHandler struct {
-	Log *slog.Logger
+	Log          *slog.Logger
 	CountService CountService
 }
 
 func NewHandler(log *slog.Logger, s CountService) *DefaultHandler {
 	return &DefaultHandler{
-		Log: log,
+		Log:          log,
 		CountService: s,
 	}
 }

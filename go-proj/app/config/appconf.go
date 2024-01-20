@@ -1,9 +1,9 @@
 package config
 
 import (
-	"os"
 	"github.com/joho/godotenv"
 	"log/slog"
+	"os"
 )
 
 type AppConf struct {

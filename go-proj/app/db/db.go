@@ -1,21 +1,20 @@
 package db
 
 import (
-	"fmt"
 	"context"
 	"errors"
+	"fmt"
 	"github.com/jmoiron/sqlx"
 
 	_ "github.com/mattn/go-sqlite3"
 
-	_ "github.com/a-h/templ"
 	"database/sql"
+	_ "github.com/a-h/templ"
 	"log/slog"
 )
 
-
 type CountStore struct {
-	db        *sqlx.DB
+	db *sqlx.DB
 }
 
 func NewCountStore() (s *CountStore, err error) {

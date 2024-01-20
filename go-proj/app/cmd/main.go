@@ -2,32 +2,29 @@ package main
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"github.com/loganphillips792/kubernetes-project/components"
 	"github.com/loganphillips792/kubernetes-project/config"
 	"log/slog"
 	"os"
-	"fmt"
-	"errors"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 
+	"database/sql"
 	_ "github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"io/ioutil"
-	"database/sql"
 )
-
 
 func main() {
 
 	cfg, configError := config.Init()
 
-	
 	if configError != nil {
 		slog.Error("error when reading config file")
 	}
-
 
 	var logger *slog.Logger
 
@@ -38,25 +35,23 @@ func main() {
 	db := initializeDatabase()
 	defer db.Close()
 
-
 	e := echo.New()
-
 
 	e.GET("/hello", func(c echo.Context) error {
 		component := components.Hello("John")
-		return component.Render(context.Background(), c.Response().Writer) 
+		return component.Render(context.Background(), c.Response().Writer)
 	})
 
 	e.GET("/", func(c echo.Context) error {
-		component := components.Page(5,5)
-		return component.Render(context.Background(), c.Response().Writer) 
-	})
-
-	e.POST("/", func(c echo.Context) error  {
-		component := components.Page(6,5)
+		component := components.Page(5, 5)
 		return component.Render(context.Background(), c.Response().Writer)
 	})
-	
+
+	e.POST("/", func(c echo.Context) error {
+		component := components.Page(6, 5)
+		return component.Render(context.Background(), c.Response().Writer)
+	})
+
 	logger.Info("Listening on :3000")
 	e.Logger.Fatal(e.Start(":3000"))
 

@@ -3,8 +3,8 @@ package services
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"github.com/loganphillips792/kubernetes-project/db"
+	"log/slog"
 )
 
 type Counts struct {
@@ -19,7 +19,7 @@ func NewCount(log *slog.Logger, cs *db.CountStore) Count {
 }
 
 type Count struct {
-	Log *slog.Logger
+	Log        *slog.Logger
 	CountStore *db.CountStore
 }
 
