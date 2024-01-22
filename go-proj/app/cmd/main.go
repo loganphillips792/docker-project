@@ -1,21 +1,24 @@
 package main
 
 import (
-	"context"
 	"errors"
 	"fmt"
-	"github.com/loganphillips792/kubernetes-project/components"
-	"github.com/loganphillips792/kubernetes-project/config"
 	"log/slog"
 	"os"
+
+	"github.com/loganphillips792/kubernetes-project/config"
+	db2 "github.com/loganphillips792/kubernetes-project/db"
+	"github.com/loganphillips792/kubernetes-project/handlers"
+	"github.com/loganphillips792/kubernetes-project/services"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 
 	"database/sql"
+	"io/ioutil"
+
 	_ "github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
-	"io/ioutil"
 )
 
 func main() {
@@ -37,20 +40,17 @@ func main() {
 
 	e := echo.New()
 
-	e.GET("/hello", func(c echo.Context) error {
-		component := components.Hello("John")
-		return component.Render(context.Background(), c.Response().Writer)
-	})
+	store, err := db2.NewCountStore()
 
-	e.GET("/", func(c echo.Context) error {
-		component := components.Page(5, 5)
-		return component.Render(context.Background(), c.Response().Writer)
-	})
+	if err != nil {
+		logger.Error("failed to create store: %s", err)
+	}
 
-	e.POST("/", func(c echo.Context) error {
-		component := components.Page(6, 5)
-		return component.Render(context.Background(), c.Response().Writer)
-	})
+	countService := services.NewCountService(logger, store)
+
+	handler := handlers.NewHandler(logger, countService)
+
+	handlers.SetupRoutes(e, handler)
 
 	logger.Info("Listening on :3000")
 	e.Logger.Fatal(e.Start(":3000"))

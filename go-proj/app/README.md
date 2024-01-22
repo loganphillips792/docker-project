@@ -2,7 +2,7 @@
 
 `docker run myapp:latest`
 
-`go run main.go`
+`go run cmd/main.go`
 
 `gofmt -s -w .`
 

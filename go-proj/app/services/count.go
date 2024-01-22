@@ -11,18 +11,18 @@ type Counts struct {
 	Global int
 }
 
-func NewCount(log *slog.Logger, cs *db.CountStore) Count {
-	return Count{
+func NewCountService(log *slog.Logger, cs *db.CountStore) CountServices {
+	return CountServices{
 		Log:        log,
 		CountStore: cs,
 	}
 }
 
-type Count struct {
+type CountServices struct {
 	Log        *slog.Logger
 	CountStore *db.CountStore
 }
 
-func (cs Count) Increment(ctx context.Context) {
+func (cs CountServices) Increment(ctx context.Context) {
 	fmt.Println("INCREMENT")
 }

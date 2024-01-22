@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 import (
 	"context"
@@ -6,6 +6,8 @@ import (
 	"github.com/loganphillips792/kubernetes-project/services"
 	"log/slog"
 	"net/http"
+	"github.com/labstack/echo/v4"
+	"github.com/a-h/templ"
 )
 
 // func GetCount
@@ -14,22 +16,22 @@ import (
 
 type CountService interface {
 	Increment(ctx context.Context)
-	Get(ctx context.Context)
+	// Get(ctx context.Context)
 }
 
 type DefaultHandler struct {
 	Log          *slog.Logger
-	CountService CountService
+	CountServices CountService
 }
 
 func NewHandler(log *slog.Logger, s CountService) *DefaultHandler {
 	return &DefaultHandler{
 		Log:          log,
-		CountService: s,
+		CountServices: s,
 	}
 }
 
-func (h *DefaultHandler) Get(w http.ResponseWriter, r *http.Request) {
+func (h *DefaultHandler) GetCount(c echo.Context) error {
 	h.Log.Info(
 		"incoming request",
 		"method", "GET",
@@ -38,6 +40,10 @@ func (h *DefaultHandler) Get(w http.ResponseWriter, r *http.Request) {
 		"status", 200,
 		"user_agent", "Googlebot/2.1 (+http://www.google.com/bot.html)",
 	)
+
+	count := 5
+	return renderView(c, 200, components.Page(count, count))
+	
 }
 
 func (h *DefaultHandler) Post(w http.ResponseWriter, r *http.Request) {
@@ -57,4 +63,16 @@ type ViewProps struct {
 
 func (h *DefaultHandler) View(w http.ResponseWriter, r *http.Request, props ViewProps) {
 	components.Page(props.Counts.Global, props.Counts.Global).Render(r.Context(), w)
+}
+
+
+func renderView(ctx echo.Context, status int, t templ.Component) error {
+    ctx.Response().Writer.WriteHeader(status)
+
+    err := t.Render(context.Background(), ctx.Response().Writer)
+    if err != nil {
+	return ctx.String(http.StatusInternalServerError, "failed to render response template")
+    }
+
+    return nil
 }
