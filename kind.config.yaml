@@ -37,3 +37,6 @@ nodes:
   - containerPort: 30768
     hostPort: 30768
     listenAddress: "0.0.0.0"
+  - containerPort: 80 # For nginx. allow the local host to make requests to the Ingress controller over ports 80
+    hostPort: 80
+    protocol: TCP

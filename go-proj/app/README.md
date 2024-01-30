@@ -1,3 +1,6 @@
+An example of Go templates and HTMX
+
+
 `docker build  -t myapp:latest .`
 
 `docker run myapp:latest`

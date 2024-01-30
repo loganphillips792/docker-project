@@ -33,9 +33,12 @@ Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
 - https://github.com/ArchiveBox/ArchiveBox (add to docker and k8s)
 - https://opentelemetry.io/
 - https://github.com/louislam/uptime-kuma
+	- https://github.com/kdubb1337/examples/tree/main/uptime-kuma/kubernetes
 - https://github.com/rancher/rancher
 - Tie images to specific version instead of using :latest
 - https://github.com/kubernetes-sigs/metrics-server
+- Reverse proxy
+- Jelly Fin: https://www.debontonline.com/2021/11/kubernetes-part-16-deploy-jellyfin.html
 
 # Accessing Applications (Docker)
 
@@ -92,6 +95,72 @@ First, enter the Kafka Broker pod `kubectl exec -it <pod_name> -n kubernetes-pro
 	- cat ./opt/kafka_2.13-2.8.1/config/server.properties | grep "advertised"
 
 # Raspberry Pi Installation
+
+# Domain Names
+
+https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address-on-raspbian-raspberry-pi-os/74428#74428
+
+1. Go through Raspberry PI OS installation
+2. Set up SSH and Wifi
+3. Get IP address of Pi: hostname -I
+4. SSH into PI: `sudo ssh logan@192.168.254.63`
+5. Install Pi Hole onto Pi: `curl -sSL https://install.pi-hole.net | bash`
+	1. It will warn you that it you need to have a static IP address for the PI. This is not necessary. You just have to be aware that restarting the PI could cause a new IP address to be assigned to it and cause failures on your network, depending on what devices are connecting to the PI
+	2. Interface: wlan0
+6. Access at localhost:80/admin if on the PI or 192.168.254.63:80/admin if you are connecting to PiHole from another device on the network
+
+Now, we want to be able to access the PI at a domain name instead of using the IP address. To do this, we need to add an A record
+
+Local DNS > DNS Records
+
+Domain: logan.homelab	
+IP: 192.168.254.63	
+
+Now, configure the DNS server on your device to use the PI as a DNS Server. On your device, your DNS server is probably the IP address of your router. Change this to be the IP address of the Pi. If you have 2 DNS severs listed, it probably will still go through your router
+
+Now you can access Pi Hole by http://logan.homelab/admin
+
+Install Pi Hole directly on Pi
+
+- Transfer folder to Pi: ```scp -r /Users/logan/docker-project logan@192.168.254.63:~```
+
+sudo kubectl apply -f docker-project/kubernetes/
+
+sudo kubectl get pods -A
+
+## K3s
+
+https://k3s.io/
+
+The install.sh script provides a convenient way to download K3s and add a service to systemd or openrc.
+
+To install k3s as a service, run
+
+curl -sfL https://get.k3s.io | sh -
+
+if you see this error: [INFO]  Failed to find memory cgroup, you may need to add "cgroup_memory=1 cgroup_enable=memory" to your linux cmdline (/boot/cmdline.txt on a Raspberry Pi) (vim /etc/cmdline.txt > cgroup_memory=1 cgroup_enable=memory)
+
+go to this link: https://github.com/k3s-io/k3s/issues/2067#issuecomment-664048424, restart the pi (sudo reboot) and install again
+
+Run systemctl status k3s.service to double check that it install correctly
+
+sudo vim ./etc/lighttpd/lighttpd.conf (Change port to 81)
+
+
+systemctl | grep "lighttpd"
+
+sudo systemctl restart lighttpd.service
+
+sudo systemctl status lighttpd.service
+
+ Now it should work again:
+
+http://192.168.254.63:81/admin/login.php
+http://logan.homelab:81/admin/
+
+
+
+/usr/local/bin/k3s-uninstall.sh
 
 ## Docker Installation
 
@@ -163,6 +232,7 @@ Note: I am using a Raspberry Pi 3B with ARMV7 cpu architecture (32 bit)
 - ```docker-compose up --force-recreate``` (Docker plugin will only work on newly created containers)
 
 ## K3s Installation
+
 
 https://k3s.io/
 
