@@ -39,6 +39,7 @@ Kind version used: `kind v0.17.0 go1.18 darwin/amd64`
 - https://github.com/kubernetes-sigs/metrics-server
 - Reverse proxy
 - Jelly Fin: https://www.debontonline.com/2021/11/kubernetes-part-16-deploy-jellyfin.html
+- https://docs.celeryq.dev/en/stable/getting-started/first-steps-with-celery.html
 
 # Accessing Applications (Docker)
 

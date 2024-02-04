@@ -3,6 +3,12 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
+  kubeadmConfigPatches: # for nginx ingress
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
   extraMounts: # this is needed for plex to be able to mount the media from the host machine (either on the internal or external drive). You also need to add this directory to Docker Hub's shared files
   - hostPath: /Users/logan/Desktop/tvShows
     containerPath: /tv
@@ -37,6 +43,6 @@ nodes:
   - containerPort: 30768
     hostPort: 30768
     listenAddress: "0.0.0.0"
-  - containerPort: 80 # For nginx. allow the local host to make requests to the Ingress controller over ports 80
+  - containerPort: 80 # For nginx ingress. allow the local host to make requests to the Ingress controller over ports 80
     hostPort: 80
     protocol: TCP
